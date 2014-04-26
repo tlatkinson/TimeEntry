@@ -1,0 +1,10 @@
+//builds on all devices - genymotion and usb connected
+ti build -p android -T device
+
+ti info -t android - list connected devices
+
+http://docs.appcelerator.com/titanium/3.0/#!/guide/Titanium_Command-Line_Interface_Reference
+
+
+TODO TI Shadow 
+https://github.com/dbankier/TiShadow
