@@ -1,7 +1,6 @@
-
-    exports.method = {
-        get : 'GET',
-        put : 'PUT',
-        post : 'POST',
-        del : 'DELETE'
-    };
+exports.httpMethod = {
+    get : 'GET',
+    put : 'PUT',
+    post : 'POST',
+    del : 'DELETE'
+};

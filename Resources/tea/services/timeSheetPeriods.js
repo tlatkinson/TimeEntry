@@ -2,19 +2,19 @@
     'use strict';
 
     var baseUrl = 'TimeSheetPeriods',
-        ajaxRequest = require('../ajaxRequest'),
-        httpMethod = require ('../httpMethod');
+        ajaxRequest = require('../ajaxRequest').ajaxRequest,
+        httpMethod = require('../httpMethod').httpMethod;
         
         
-    exports.getTimeSheetPeriodsByYear = function (year, sucessFunc) {
-        var queryString = {year : '2014'};
+    exports.getTimeSheetPeriodsByYear = function (year, successFunc) {
+        var queryString = {year : year};
         
-        ajaxRequest(baseUrl, httpMethod.get, queryString, sucessFunc);
+        return ajaxRequest(baseUrl, httpMethod.get, queryString, successFunc);
     };
     
     exports.getTimeSheetPeriodsById = function (id, successFunc) {
         var queryString = {id : id};
         
-        ajaxRequest(baseUrl, httpMethod.get, queryString, successFunc);
+        ajaxRequest(baseUrl, httpMethod.get, queryString);
     };
 }());
