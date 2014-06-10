@@ -1,5 +1,5 @@
 //http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Network.HTTPClient
-exports.ajaxRequest = function (url, method, params, successFunc, errorFunc, completeFunc) {
+exports.ajaxRequest = function (url, method, params, successFunc, errorFunc) {
     'use strict';
     
     var user = 'MobileContest7',
@@ -9,7 +9,7 @@ exports.ajaxRequest = function (url, method, params, successFunc, errorFunc, com
     
     client = Ti.Network.createHTTPClient({
         //similar to $.ajax.success except all http responses are returned here
-        onload : function (e) {
+        onload : function () {
             if ((this.readyState === 4)) {                
                 successFunc(JSON.parse(this.responseText), params); 
             } else if ((this.readyState !== 4) && errorFunc){
@@ -21,7 +21,6 @@ exports.ajaxRequest = function (url, method, params, successFunc, errorFunc, com
                 errorFunc();
             }
         },
-        async : false,
         timeout: 5000            
     });
     
