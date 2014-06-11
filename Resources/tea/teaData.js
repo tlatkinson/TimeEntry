@@ -2,7 +2,6 @@ exports.teaData = function () {
     'use strict';
     
     var timeTableView = {},
-        weekView = {},
         submitTimeSheetView = {},
         progressIndicator,
         currentTimeSheetId,
@@ -71,7 +70,7 @@ exports.teaData = function () {
                     for(i = 0; i < lineWork[lineWorkIn.LineId].length; i += 1) {
                         if(lineWork[lineWorkIn.LineId][i].Id === lineWorkIn.Id) {
                             lineWork[lineWorkIn.LineId][i] = lineWorkIn.Id;
-                            // tea.loadDay(tea.date);
+                            tea.loadDay(tea.date);
                             break;
                         }
                     }
@@ -255,7 +254,7 @@ exports.teaData = function () {
             this.updateListItem = timeSheetDays.updateListItem;
             timeSheetDays.getTimeSheetPeriods(this.date);
             
-            weekViewData.initialize(weekViewIn, timeSheetDays);
+            weekViewData.initialize(weekViewIn, timeSheetDays.getTimeSheetPeriods);
         },
         showIndicator : function () {
             progressIndicator.show();
