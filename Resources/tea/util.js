@@ -11,27 +11,39 @@ exports.util = function () {
         dateParts.year = String(jsDate.getFullYear());
         dateParts.month = String(jsDate.getMonth() + 1);
         dateParts.day = String(jsDate.getDate());
+        
+        return dateParts;
     }
     
-    function getDateFromTimeStamp(dateString) {
+    function getDateString(jsDate) {
+        var dateParts = getDateParts(jsDate);
+        
+        return dateParts.month + '/' + dateParts.day + '/' + dateParts.year;
+    }
+    
+    function getDateFromTimeStamp(timeStamp) {
         var dateParts = {};
         
-        if(dateString.length !== 19) {
+        if(!timeStamp || (timeStamp.length !== 19)) {
             return new Date();
         }
         
         //year, month, date
         return new Date(
-            dateString.substring(0, 4), 
-            parseInt(dateString.substring(5, 7), 10) - 1, 
-            dateString.substring(8, 10),
-            dateString.substring(11, 13),
-            dateString.substring(14, 16),
-            dateString.substring(17, 19));
+            timeStamp.substring(0, 4), 
+            parseInt(timeStamp.substring(5, 7), 10) - 1, 
+            timeStamp.substring(8, 10),
+            timeStamp.substring(11, 13),
+            timeStamp.substring(14, 16),
+            timeStamp.substring(17, 19));
     }
     
     return {
         getDateFromTimeStamp : getDateFromTimeStamp,
-        getDateParts : getDateParts
+        getDateParts : getDateParts,
+        getDateString : getDateString,
+        getDateStringFromTimeStamp : function (timeStamp) {
+            return getDateString(getDateFromTimeStamp(timeStamp));
+        }
     };
 };

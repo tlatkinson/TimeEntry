@@ -14,4 +14,16 @@
         
         ajaxRequest(baseUrl, httpMethod.get, queryString, successFunc);
     };
+    
+    exports.submitTimeSheet = function (id, comment, successFunc, errorFunc) {
+        var queryString = {timesheetPeriodId : id};
+        
+        if(!comment) {
+            comment = '';
+        } 
+        
+        queryString.comment = comment;
+        
+        ajaxRequest(baseUrl, httpMethod.post, queryString, successFunc, errorFunc);
+    };
 }());

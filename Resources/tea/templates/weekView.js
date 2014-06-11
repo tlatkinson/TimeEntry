@@ -4,7 +4,7 @@ exports.weekView = function () {
     var dayMap = {},
         weekView,
         util = require('tea/util').util(),
-        daysAbbr = [ 'SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRID', 'SAT'],
+        daysAbbr = [ 'SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'],
         timeSheetDays = {};
     
     function initialize () {    
@@ -13,7 +13,7 @@ exports.weekView = function () {
             dayMap[day] = {};
             
             parentView = Ti.UI.createView({
-                width : Ti.UI.SIZE,
+                width : '14.2%',
                 height : Ti.UI.FILL,
                 layout : 'vertical'
             });
@@ -21,9 +21,7 @@ exports.weekView = function () {
             dayMap[day].dayLabel = Ti.UI.createLabel({
                 text : day,
                 width : Ti.UI.SIZE,
-                font : {fontSize : '18dp'},
-                left : 5,
-                right : 5
+                font : {fontSize : '18dp'}
             });
             
             dayMap[day].dateLabel = Ti.UI.createLabel({

@@ -1,42 +1,50 @@
-exports.timeEntryRow = function (tableView, hours, project, task, initial) {
+exports.timeEntryRow = function (tableView, lineWork, project, task, tea) {
     'use strict';
     
     var row = Ti.UI.createTableViewRow(),
-        hour,
+        hourLabel,
+        projectLabel,
+        taskLabel,        
         hoursFontSize = 32,
-        hoursOffset = '0dp';
-        
-    if (initial) {
-        hoursFontSize = 12;
-        hoursOffset = '18dp';
-    }
+        hoursOffset = '0dp',
+        updateWindow;
     
-    hour = Ti.UI.createLabel({
-        text : hours,
+    hourLabel = Ti.UI.createLabel({
+        text : lineWork.ActualWork,
         left: '12dp',
         top : hoursOffset,
         font : {fontSize : hoursFontSize},
         width: '54dp'
     });
     
-    project = Ti.UI.createLabel({
+    projectLabel = Ti.UI.createLabel({
         text : project,
         top : '4dp',
-        left: '60dp',
+        left: '70dp',
         font : {fontSize : 18}
     });
     
-    task = Ti.UI.createLabel({
+    taskLabel = Ti.UI.createLabel({
         text : task,
-        left: '60dp',
+        left: '70dp',
         top : '30dp',
         font : {fontSize : 12}
     });
     
-    row.add(hour);
-    row.add(project);
-    row.add(task);
+    row.add(hourLabel);
+    row.add(projectLabel);
+    row.add(taskLabel);
     row.className = 'entryRow';
         
+    row.addEventListener('click', function (e) {
+        if(!updateWindow) {
+            updateWindow = require('tea/templates/updateWindow').updateWindow(lineWork, project, task, tea);
+        }
+        updateWindow.open({
+            activityEnterAnimation: Ti.Android.R.anim.slide_in_left,
+            activityExitAnimation: Ti.Android.R.anim.slide_out_right
+        });
+    });
+    
     tableView.appendRow(row);
 };
