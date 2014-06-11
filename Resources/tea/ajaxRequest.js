@@ -20,7 +20,7 @@ exports.ajaxRequest = function (url, method, params, successFunc, errorFunc) {
                 errorFunc();
             }
         },
-        timeout: 1000 * 10            
+        timeout: 1000 * 30           
     });
     
     client.username = user;

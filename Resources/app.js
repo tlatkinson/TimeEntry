@@ -54,6 +54,7 @@
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_LINE,
         borderColor : '#000',
         color : '#000',
+        backgroundColor : '#fff',
         borderWidth : 1
     }));
     

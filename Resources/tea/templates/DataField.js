@@ -22,6 +22,7 @@ exports.DataField = function (inputParams) {
             borderStyle: Ti.UI.INPUT_BORDERSTYLE_LINE,
             borderColor : '#000',
             color: '#000',
+            backgroundColor : '#fff',
             borderWidth: 1,
             titleid : inputParams.id
         });
@@ -41,6 +42,7 @@ exports.DataField = function (inputParams) {
             borderStyle: Ti.UI.INPUT_BORDERSTYLE_LINE,
             borderColor : '#000',
             color : '#000',
+            backgroundColor : '#fff',
             borderWidth : 1,
             left : '5%',
             top : '2%',
