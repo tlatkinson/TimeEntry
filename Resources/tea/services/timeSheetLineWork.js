@@ -5,10 +5,6 @@
         ajaxRequest = require('../ajaxRequest').ajaxRequest,
         httpMethod = require('../httpMethod').httpMethod;
     
-    // exports.getTimeSheetByDate = function (date) {
-//         
-    // };
-    
     exports.getLineWorkItems = function (periodId, timeSheetId, lineId, successFunc) {
         var queryString = {
             timeSheetPeriodId : periodId,
@@ -17,5 +13,9 @@
         };
         
         ajaxRequest(baseUrl, httpMethod.get, queryString, successFunc);
+    };
+    
+    exports.updateLineWorkItems = function (lineWork, successFunc, errorFunc) {
+        ajaxRequest(baseUrl, httpMethod.put, lineWork, successFunc, errorFunc);
     };
 }());
