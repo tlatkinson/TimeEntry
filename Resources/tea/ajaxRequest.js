@@ -1,4 +1,3 @@
-//http://docs.appcelerator.com/titanium/latest/#!/api/Titanium.Network.HTTPClient
 exports.ajaxRequest = function (url, method, params, successFunc, errorFunc) {
     'use strict';
     
@@ -21,7 +20,7 @@ exports.ajaxRequest = function (url, method, params, successFunc, errorFunc) {
                 errorFunc();
             }
         },
-        timeout: 5000            
+        timeout: 1000 * 10            
     });
     
     client.username = user;

@@ -11,10 +11,4 @@
         
         return ajaxRequest(baseUrl, httpMethod.get, queryString, successFunc);
     };
-    
-    exports.getTimeSheetPeriodsById = function (id, successFunc) {
-        var queryString = {id : id};
-        
-        ajaxRequest(baseUrl, httpMethod.get, queryString);
-    };
 }());

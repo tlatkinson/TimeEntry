@@ -10,10 +10,9 @@
     
     //Setup Window
     timeSheetWindow = Titanium.UI.createWindow({
-        title:'Time',
+        title:'Time Entry',
         backgroundColor:'#fff',
-        layout: 'vertical',
-        font : {fontSize : 48}
+        layout: 'vertical'
     });
     
     //base view
@@ -27,7 +26,7 @@
     //week table view
     weekView = Titanium.UI.createView({
         layout: 'horizontal',
-        height: '10%'
+        height: '9%'
     });
     
     baseView.add(weekView);
@@ -45,7 +44,3 @@
     timeSheetWindow.add(baseView);
     timeSheetWindow.open();
 }());
-
-/*
-https://www.youtube.com/watch?v=0nYGCTeBAnk
- */

@@ -11,7 +11,7 @@
     
     exports.getLineWorkItems = function (periodId, timeSheetId, lineId, successFunc) {
         var queryString = {
-            timesheetPeriodId : periodId,
+            timeSheetPeriodId : periodId,
             timeSheetId : timeSheetId,
             lineId : lineId
         };

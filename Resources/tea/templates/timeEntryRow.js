@@ -3,34 +3,34 @@ exports.timeEntryRow = function (tableView, hours, project, task, initial) {
     
     var row = Ti.UI.createTableViewRow(),
         hour,
-        hoursFontSize = 48,
+        hoursFontSize = 32,
         hoursOffset = '0dp';
         
     if (initial) {
-        hoursFontSize = 24;
-        hoursOffset = '12dp';
+        hoursFontSize = 12;
+        hoursOffset = '18dp';
     }
     
     hour = Ti.UI.createLabel({
         text : hours,
-        left: '8dp',
+        left: '12dp',
         top : hoursOffset,
         font : {fontSize : hoursFontSize},
-        width: '72dp'
+        width: '54dp'
     });
     
     project = Ti.UI.createLabel({
         text : project,
-        top : '8dp',
-        left: '80dp',
-        font : {fontSize : 24}
+        top : '4dp',
+        left: '60dp',
+        font : {fontSize : 18}
     });
     
     task = Ti.UI.createLabel({
         text : task,
-        left: '80dp',
-        top : '38dp',
-        font : {fontSize : 16}
+        left: '60dp',
+        top : '30dp',
+        font : {fontSize : 12}
     });
     
     row.add(hour);

@@ -1,7 +1,5 @@
-exports.util = function ()
-{   
+exports.util = function () {   
     'use strict';
-         
  
     function getDateParts(jsDate) {
         var dateParts = {};
@@ -23,7 +21,13 @@ exports.util = function ()
         }
         
         //year, month, date
-        return new Date(dateString.substring(0, 4), parseInt(dateString.substring(5, 7), 10) - 1, dateString.substring(8, 10), 0, 0, 0, 0);
+        return new Date(
+            dateString.substring(0, 4), 
+            parseInt(dateString.substring(5, 7), 10) - 1, 
+            dateString.substring(8, 10),
+            dateString.substring(11, 13),
+            dateString.substring(14, 16),
+            dateString.substring(17, 19));
     }
     
     return {

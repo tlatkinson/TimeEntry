@@ -15,21 +15,22 @@ exports.teaData = function () {
     function lineWorkData () {
         var lineWork = {};
         
-        //TODO add to list view
         function updateUI (timeSheetLine, date) {
-            return function (lineWorkItems) {
+            return function (lineWorkItems, params) {
                 var i,
                     startDate,
                     endDate;
+                    
+                if(params && !lineWork[params.lineId]) {
+                    lineWork[params.lineId]= lineWorkItems;
+                }
                 
                 for(i = 0; i < lineWorkItems.length; i += 1) {
                     startDate = util.getDateFromTimeStamp(lineWorkItems[i].Start);
                     endDate = new Date();
                     endDate.setTime(startDate.getTime() + (24 * 60 * 60 * 1000));
                     
-                    Ti.API.log(i + ' ' + date + ' ' + startDate + ' ' + endDate);
-                    if((date >= startDate) && (date <= endDate)) {
-                        Ti.API.log(i + ' found');
+                    if((date >= startDate) && (date < endDate)) {
                         addTableRow(timeTableView, lineWorkItems[i].ActualWork, timeSheetLine.ProjectName, timeSheetLine.TaskName);
                     }
                 }
@@ -57,10 +58,22 @@ exports.teaData = function () {
         var timeSheetLines = {},
            lineWorkItems = lineWorkData();
         
-        //TODO empty list view
         function loadLineWork (date) {
-            return function (lines) {
-                var i;
+            return function (lines, params) {
+                var i,
+                    id;
+                    
+                if(params) {
+                    id = params.timeSheetPeriodId + params.timeSheetId;
+                    Ti.API.log(id);
+                    
+                    if(!timeSheetLines[id]) {
+                        timeSheetLines[id] = lines;
+                    }
+                }
+                
+                //clear and repopulate
+                timeTableView.setData([]);
                 for(i = 0; i < lines.length; i += 1) {
                     lineWorkItems.updateListView(lines[i], date);
                 }
@@ -68,10 +81,12 @@ exports.teaData = function () {
         }
         
         return function (timeSheet, date) {
-            var loadWork = loadLineWork(date);
+            var loadWork = loadLineWork(date),
+                id = timeSheet.TimeSheetPeriodId + timeSheet.Id;
             
-            if(timeSheetLines[timeSheet.Id]) {
-                loadWork(timeSheetLines[timeSheet.Id]);
+            Ti.API.log(id);
+            if(timeSheetLines[id]) {
+                loadWork(timeSheetLines[id]);
             } else {
                 timeSheetLineService.getTimeSheetLines(
                     timeSheet.TimeSheetPeriodId, 
@@ -86,8 +101,12 @@ exports.teaData = function () {
            sheetLines = getTimeSheetLines();
         
         function loadTimeSheetLines (date) {
-            return function (timeSheet) {
-                sheetLines(timeSheet, date);
+            return function (timeSheetLines, params) {
+                if(params && !timeSheet[params.timesheetPeriodId]) {
+                    timeSheet[params.timesheetPeriodId]= timeSheetLines;
+                } 
+                
+                sheetLines(timeSheetLines, date);
             };
         }
         
@@ -109,25 +128,25 @@ exports.teaData = function () {
            timeSheets = getTimeSheet();
         
         function loadTimeSheet (date) {
-            return function (sheetPeriods) {
+            return function (sheetPeriods, params) {
                 var i,
                     startDate,
                     endDate;
+                
+                if(params && !timeSheetPeriods[params.year]) {
+                    timeSheetPeriods[params.year]= sheetPeriods;
+                } 
                 
                 for(i = 0; i < sheetPeriods.length; i += 1) {
                     startDate = util.getDateFromTimeStamp(sheetPeriods[i].Start);
                     endDate = util.getDateFromTimeStamp(sheetPeriods[i].End);
                     
-                    
-                    Ti.API.log(i + ' ' + date + ' ' + startDate + ' ' + endDate);
-                    if((date >= startDate) && (date <= endDate)) {
-                        Ti.API.log(i + ' found');
+                    if((date >= startDate) && (date < endDate)) {
+                        weekViewData.updateDates(util.getDateFromTimeStamp(sheetPeriods[i].Start), date);
+                        timeSheets(sheetPeriods[i], date);
                         break;
                     }
                 }
-                
-                weekViewData.updateDates(util.getDateFromTimeStamp(sheetPeriods[i].Start));
-                timeSheets(sheetPeriods[i], date);
             };
         }
         
@@ -148,19 +167,16 @@ exports.teaData = function () {
     return {
         initialize : function (timeTableViewIn, weekViewIn) {
             var weekDate = new Date();
+            //temp - go back 3 weeks
+            weekDate.setTime(weekDate.getTime() - (24 * 60 * 60 * 1000 * 7 * 3));
             
             timeTableView = timeTableViewIn;
             
-            addTableRow(timeTableView, 'Hours', 'Project', 'Task', true);
             timeSheetDays = getTimeSheetPeriods();
-            weekDate.setTime(weekDate.getTime() - (24 * 60 * 60 * 1000 * 7 * 3));
             timeSheetDays(weekDate);
             
-            weekViewData.initialize(weekViewIn);
+            weekViewData.initialize(weekViewIn, timeSheetDays);
         },
         loadDay : timeSheetDays
-        // addTimeEntryRow : function (hours, project, task, initial) {
-            // addTableRow(tableView, hours, project, task, initial);
-        // }
     };
 };

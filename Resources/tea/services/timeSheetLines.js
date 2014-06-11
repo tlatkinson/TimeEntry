@@ -11,7 +11,7 @@
     
     exports.getTimeSheetLines = function (periodId, timeSheetId, successFunc) {
         var queryString = {
-            timesheetPeriodId : periodId,
+            timeSheetPeriodId : periodId,
             timeSheetId : timeSheetId
         };
         
