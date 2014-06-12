@@ -1,3 +1,8 @@
+/*
+    This class is a bit intimidating thanks to the lovely web service structure
+    Read it from the bottom up.  Additional notes below
+ */
+
 exports.teaData = function () {
     'use strict';
     
@@ -5,14 +10,14 @@ exports.teaData = function () {
         submitTimeSheetView = {},
         progressIndicator,
         currentTimeSheetId,
-        timeSheetDays = {},
+        timeSheetPeriods = {},
         lineCount = 0,
         timeSheetPeriodService = require('tea/services/timeSheetPeriods'),
         timeSheetService = require('tea/services/timeSheet'),
         timeSheetLineService = require('tea/services/timeSheetLines'),
         timeSheetLineWorkService = require('tea/services/timeSheetLineWork'),
         addTableRow = require('tea/templates/timeEntryRow').timeEntryRow,
-        weekViewData = require('tea/templates/weekView').weekView(),
+        weekView = require('tea/templates/weekView').weekView(),
         util = require('tea/util').util(),
         tea;
     
@@ -125,6 +130,7 @@ exports.teaData = function () {
             }
         };
         
+        //returning all previously returned public properties up the stack + the below
         return lineWorkItems;
     }
     
@@ -146,6 +152,7 @@ exports.teaData = function () {
             };
         }
         
+        //returning all previously returned public properties up the stack + the below
         sheetLines.getTimeSheet = function (timeSheetPeriod, date) {
             var loadLines = loadTimeSheetLines(date);
             
@@ -162,16 +169,21 @@ exports.teaData = function () {
         return sheetLines;
     }
     
+    //functions getTimeSheet, getTimeSheetLines, lineWorkData follow this exact same pattern
     function getTimeSheetPeriods () {
+        //stores the returned results from the ws so the same call isn't made twice
         var timeSheetPeriods = {},
-           timeSheets = getTimeSheet();
+            //contains the next layer of data
+            timeSheets = getTimeSheet();
         
+        //success function for ajax request, currying the date in since it isn't known at time of request success
         function loadTimeSheet (date) {
             return function (sheetPeriods, params) {
                 var i,
                     startDate,
                     endDate;
                 
+                //storing the results in memory for future use
                 if(params && !timeSheetPeriods[params.year]) {
                     timeSheetPeriods[params.year]= sheetPeriods;
                 } 
@@ -180,8 +192,9 @@ exports.teaData = function () {
                     startDate = util.getDateFromTimeStamp(sheetPeriods[i].Start);
                     endDate = util.getDateFromTimeStamp(sheetPeriods[i].End);
                     
+                    //getting correct timesheet
                     if((date >= startDate) && (date < endDate)) {
-                        weekViewData.updateDates(util.getDateFromTimeStamp(sheetPeriods[i].Start), date);
+                        weekView.updateDates(util.getDateFromTimeStamp(sheetPeriods[i].Start), date);
                         timeSheets.getTimeSheet(sheetPeriods[i], date);
                         break;
                     }
@@ -189,6 +202,7 @@ exports.teaData = function () {
             };
         }
         
+        //returning all previously returned public properties up the stack + the below
         timeSheets.getTimeSheetPeriods = function (date) {
             var loadSheet = loadTimeSheet(date), 
                 year = String(date.getFullYear());
@@ -196,6 +210,7 @@ exports.teaData = function () {
             tea.date = date;
             timeTableView.setData([]);
             
+            //checks to see if we already have the years time sheet periods
             if(timeSheetPeriods[year]) {
                 loadSheet(timeSheetPeriods[year]);
             } else {
@@ -211,7 +226,7 @@ exports.teaData = function () {
     }
     
     tea = {
-        initialize : function (timeTableViewIn, weekViewIn, submitTimeSheetViewIn) {
+        initialize : function (timeSheetWindow) {
             progressIndicator = Ti.UI.Android.createProgressIndicator({
                 message: 'Loading...',
                 location: Ti.UI.Android.PROGRESS_INDICATOR_DIALOG,
@@ -220,8 +235,8 @@ exports.teaData = function () {
                 max: 1
             });
             
-            timeTableView = timeTableViewIn;
-            submitTimeSheetView = submitTimeSheetViewIn;
+            timeTableView = timeSheetWindow.children[0].children[1];
+            submitTimeSheetView = timeSheetWindow.children[1];
             
             submitTimeSheetView.children[1].addEventListener('click', function (e) {
                 if(currentTimeSheetId) {
@@ -247,14 +262,17 @@ exports.teaData = function () {
                 } 
             });
             
+            //initialize tea data
+            timeSheetPeriods = getTimeSheetPeriods();
+            //starts loading the current date
+            timeSheetPeriods.getTimeSheetPeriods(new Date());
+            
+            //setting more public tea properties that weren't available when teaData was created
             this.date = new Date();
+            this.loadDay = timeSheetPeriods.getTimeSheetPeriods;
+            this.updateListItem = timeSheetPeriods.updateListItem;
             
-            timeSheetDays = getTimeSheetPeriods();
-            this.loadDay = timeSheetDays.getTimeSheetPeriods;
-            this.updateListItem = timeSheetDays.updateListItem;
-            timeSheetDays.getTimeSheetPeriods(this.date);
-            
-            weekViewData.initialize(weekViewIn, timeSheetDays.getTimeSheetPeriods);
+            weekView.initialize(timeSheetWindow.children[0].children[0], timeSheetPeriods.getTimeSheetPeriods);
         },
         showIndicator : function () {
             progressIndicator.show();

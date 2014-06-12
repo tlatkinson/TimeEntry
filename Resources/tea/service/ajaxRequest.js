@@ -1,6 +1,7 @@
 exports.ajaxRequest = function (url, method, params, successFunc, errorFunc) {
     'use strict';
     
+    //yup, creds are in plain text
     var user = 'MobileContest7',
         pass = 'Mob1leTest7',
         client,

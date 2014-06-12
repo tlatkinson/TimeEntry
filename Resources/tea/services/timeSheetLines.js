@@ -5,10 +5,6 @@
         ajaxRequest = require('tea/service/ajaxRequest').ajaxRequest,
         httpMethod = require('tea/service/httpMethod').httpMethod;
     
-    // exports.getTimeSheetByDate = function (date) {
-//         
-    // };
-    
     exports.getTimeSheetLines = function (periodId, timeSheetId, successFunc) {
         var queryString = {
             timeSheetPeriodId : periodId,

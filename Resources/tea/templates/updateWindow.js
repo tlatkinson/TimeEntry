@@ -1,7 +1,6 @@
 exports.updateWindow = function (lineWork, project, task, tea) {
     'use strict';
     
-    //TODO validate hours input
     var updateWindow,
         util = require('tea/util').util(),
         dateString = util.getDateStringFromTimeStamp(lineWork.Start),
