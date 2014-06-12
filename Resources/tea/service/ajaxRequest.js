@@ -4,7 +4,7 @@ exports.ajaxRequest = function (url, method, params, successFunc, errorFunc) {
     var user = 'MobileContest7',
         pass = 'Mob1leTest7',
         client,
-        serviceConfig = require('serviceConfig').serviceConfig;
+        serviceConfig = require('tea/service/serviceConfig').serviceConfig;
     
     client = Ti.Network.createHTTPClient({
         //similar to $.ajax.success except all http responses are returned here

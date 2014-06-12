@@ -2,12 +2,8 @@
     'use strict';
 
     var baseUrl = 'TimeSheet',
-        ajaxRequest = require('../ajaxRequest').ajaxRequest,
-        httpMethod = require('../httpMethod').httpMethod;
-    
-    // exports.getTimeSheetByDate = function (date) {
-//         
-    // };
+        ajaxRequest = require('tea/service/ajaxRequest').ajaxRequest,
+        httpMethod = require('tea/service/httpMethod').httpMethod;
     
     exports.getTimeSheetById = function (id, successFunc) {
         var queryString = {timesheetPeriodId : id};
@@ -16,14 +12,8 @@
     };
     
     exports.submitTimeSheet = function (id, comment, successFunc, errorFunc) {
-        var queryString = {timesheetPeriodId : id};
+        var queryString = '?timesheetPeriodIdid=' + id + '&comment=' + encodeURIComponent(comment);
         
-        if(!comment) {
-            comment = '';
-        } 
-        
-        queryString.comment = comment;
-        
-        ajaxRequest(baseUrl, httpMethod.post, queryString, successFunc, errorFunc);
+        ajaxRequest(baseUrl + queryString, httpMethod.post, {}, successFunc, errorFunc);
     };
 }());

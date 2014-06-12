@@ -2,8 +2,8 @@
     'use strict';
 
     var baseUrl = 'TimeSheetLineWork',
-        ajaxRequest = require('../ajaxRequest').ajaxRequest,
-        httpMethod = require('../httpMethod').httpMethod;
+        ajaxRequest = require('tea/service/ajaxRequest').ajaxRequest,
+        httpMethod = require('tea/service/httpMethod').httpMethod;
     
     exports.getLineWorkItems = function (periodId, timeSheetId, lineId, successFunc) {
         var queryString = {

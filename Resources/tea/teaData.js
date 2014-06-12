@@ -220,6 +220,7 @@ exports.teaData = function () {
                 max: 1
             });
             
+            timeTableView = timeTableViewIn;
             submitTimeSheetView = submitTimeSheetViewIn;
             
             submitTimeSheetView.children[1].addEventListener('click', function (e) {
@@ -246,7 +247,6 @@ exports.teaData = function () {
                 } 
             });
             
-            timeTableView = timeTableViewIn;
             this.date = new Date();
             
             timeSheetDays = getTimeSheetPeriods();

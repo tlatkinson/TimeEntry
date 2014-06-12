@@ -7,7 +7,7 @@ exports.updateWindow = function (lineWork, project, task, tea) {
         dateString = util.getDateStringFromTimeStamp(lineWork.Start),
         i,
         updateButton,
-        DataField = require('tea/templates/DataField').DataField,
+        dataField = require('tea/templates/dataField').dataField,
         timeSheetLineWorkService = require('tea/services/timeSheetLineWork'),
         inputParams = [
             {value : dateString,                        name : 'Date',                          id : 'Date',                    type : 'label'},
@@ -38,7 +38,7 @@ exports.updateWindow = function (lineWork, project, task, tea) {
     });
     
     for(i = 0; i < inputParams.length; i += 1) {
-        fields[inputParams[i].id] = new DataField(inputParams[i]);
+        fields[inputParams[i].id] = dataField(inputParams[i]);
         updateWindow.add(fields[inputParams[i].id]);
     }
     
@@ -48,7 +48,7 @@ exports.updateWindow = function (lineWork, project, task, tea) {
         width: '30%'
     });
     
-    function updateLineWork (e) {
+    updateButton.addEventListener('click', function (e) {
         var j;
         
         progressIndicator.show();
@@ -76,9 +76,7 @@ exports.updateWindow = function (lineWork, project, task, tea) {
                 progressIndicator.hide();
                 toast.show();
             });
-    }
-    
-    updateButton.addEventListener('click', updateLineWork);
+    });
     
     updateWindow.add(updateButton);
     

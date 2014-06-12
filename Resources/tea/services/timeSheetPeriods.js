@@ -2,8 +2,8 @@
     'use strict';
 
     var baseUrl = 'TimeSheetPeriods',
-        ajaxRequest = require('../ajaxRequest').ajaxRequest,
-        httpMethod = require('../httpMethod').httpMethod;
+        ajaxRequest = require('tea/service/ajaxRequest').ajaxRequest,
+        httpMethod = require('tea/service/httpMethod').httpMethod;
         
         
     exports.getTimeSheetPeriodsByYear = function (year, successFunc) {

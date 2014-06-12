@@ -65,9 +65,6 @@
     }));
     timeSheetWindow.add(submitTimeSheetView);
     
-    //adding data
-    teaData.initialize(timeTableView, weekView, submitTimeSheetView);
-    
     function swipeListener (e) {
         var weekOfTime = 24 * 60 * 60 * 1000 * 7;
         if(e.direction === 'right') {
@@ -83,4 +80,7 @@
     
     timeSheetWindow.add(baseView);
     timeSheetWindow.open();
+    
+    //adding data
+    teaData.initialize(timeTableView, weekView, submitTimeSheetView);
 }());
