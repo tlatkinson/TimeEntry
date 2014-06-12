@@ -1,4 +1,4 @@
-exports.DataField = function (inputParams) {
+exports.dataField = function (inputParams) {
     'use strict';
     
     var baseView, 
